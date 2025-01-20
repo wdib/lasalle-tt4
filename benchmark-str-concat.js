@@ -1,5 +1,6 @@
+const strConcatObj = require( './string-concatenation' );
+
 const
-  strConcatObj     = require( './string-concatenation' ),
   createMessageAFn = strConcatObj.createMessageAFn,
   createMessageBFn = strConcatObj.createMessageBFn
 ;
