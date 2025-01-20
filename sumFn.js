@@ -3,7 +3,7 @@
 const int_list = [ 1, 2, 3, 4, 5 ];
 
 function sumFn ( arr ) {
-  // Add the numbers in the given array
+  // Declare a variable to store the sum and initialise it to 0
   let sum_int = 0;
 
   // Loop through the array's integers
