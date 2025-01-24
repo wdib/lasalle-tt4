@@ -1,0 +1,15 @@
+{
+  "name": "tt4",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A playground for in-class exercise in TT4",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "William Dib",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
