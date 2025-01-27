@@ -2,9 +2,11 @@ import expressObj from 'express';
 
 const app = expressObj();
 
-app.get( '/', function ( request, response ) {
-  response.set( 'Content-Type', 'text/plain' );
-  response.send( 'Welcome to the HTTP server!\n' );
+const itemList = [];
+
+app.get( '/item/list', function ( request, response ) {
+  response.set( 'Content-Type', 'application/json' );
+  response.send( itemList );
 });
 
 const server = app.listen( 3000, '127.0.0.1', function () {
