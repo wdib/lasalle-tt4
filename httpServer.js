@@ -72,9 +72,15 @@ app.get( '/item/read/:id', function ( request, response ) {
     response.status( 404 ).send( 'Item not found' );
   }
 });
-  const item_id  = request.params.id;
-  const item_idx = getIdx( item_id );
+
+// Update
+app.post( '/item/update/:id', function ( request, response ) {
+  const item_id    = request.params.id;
+  const update_map = request.body;
+  const item_idx   = getIdx( item_id );
   if ( item_idx !== null ) {
+    update_map.id        = item_id;
+    itemList[ item_idx ] = update_map;
     response.send( itemList[ item_idx ] );
   }
   else {
