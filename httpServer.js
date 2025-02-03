@@ -44,6 +44,7 @@ app.get( '/item/list', function ( request, response ) {
   response.send( itemList );
 });
 
+// Create
 app.post( '/item/create', function ( request, response ) {
   // I need to access the body of the request which contains the data
   // for the object that I will be creating on the backend
@@ -60,11 +61,17 @@ app.post( '/item/create', function ( request, response ) {
   response.send( item_map );
 });
 
-// 1. Capture the ID in the request
-// 2. Search the items that I have for an item with the given ID
-// 3. If found, return the item's object.
-// 4. Otherwise, send a 404.
+// Read
 app.get( '/item/read/:id', function ( request, response ) {
+  const item_id    = request.params.id;
+  const item_idx   = getIdx( item_id );
+  if ( item_idx !== null ) {
+    response.send( itemList[ item_idx ] );
+  }
+  else {
+    response.status( 404 ).send( 'Item not found' );
+  }
+});
   const item_id  = request.params.id;
   const item_idx = getIdx( item_id );
   if ( item_idx !== null ) {
