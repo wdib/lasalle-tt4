@@ -7,6 +7,22 @@ const itemList = [];
 
 let idCounter = 0;
 
+// Return the index of the object that matches item_id (if found)
+// Otherwise, return null.
+function getIdx ( item_id ) {
+  let
+    item_count = itemList.length,
+    item_map, i
+  ;
+  for ( i = 0; i < item_count; i++ ) {
+    item_map = itemList[ i ];
+    if ( item_map.id === item_id ) {
+      return i;
+    }
+  }
+  return null;
+}
+
 // Begin middleware ----------------------------------------------------------
 // This following line parses the data in a POST request and makes it
 // available in request.body
@@ -42,6 +58,21 @@ app.post( '/item/create', function ( request, response ) {
   
   // Send the newly-created object in the response
   response.send( item_map );
+});
+
+// 1. Capture the ID in the request
+// 2. Search the items that I have for an item with the given ID
+// 3. If found, return the item's object.
+// 4. Otherwise, send a 404.
+app.get( '/item/read/:id', function ( request, response ) {
+  const item_id  = request.params.id;
+  const item_idx = getIdx( item_id );
+  if ( item_idx !== null ) {
+    response.send( itemList[ item_idx ] );
+  }
+  else {
+    response.status( 404 ).send( 'Item not found' );
+  }
 });
 // End routes ----------------------------------------------------------------
 
