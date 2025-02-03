@@ -87,6 +87,19 @@ app.post( '/item/update/:id', function ( request, response ) {
     response.status( 404 ).send( 'Item not found' );
   }
 });
+
+// Delete
+app.delete( '/item/delete/:id', function ( request, response ) {
+  const item_id  = request.params.id;
+  const item_idx = getIdx( item_id );
+  if ( item_idx !== null ) {
+    itemList.splice( item_idx, 1 );
+    response.status( 200 ).end();
+  }
+  else {
+    response.status( 404 ).send( 'Item not found' );
+  }
+});
 // End routes ----------------------------------------------------------------
 
 const server = app.listen( 3000, '127.0.0.1', function () {
