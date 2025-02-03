@@ -1,4 +1,5 @@
 import expressObj from 'express';
+import morganObj  from 'morgan';
 
 const app = expressObj();
 
@@ -10,6 +11,7 @@ let idCounter = 0;
 // This following line parses the data in a POST request and makes it
 // available in request.body
 app.use( expressObj.json() );
+app.use( morganObj( 'dev' ) );
 // . END middleware ----------------------------------------------------------
 
 
