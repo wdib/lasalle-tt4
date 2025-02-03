@@ -6,12 +6,23 @@ const itemList = [];
 
 let idCounter = 0;
 
+// Begin middleware ----------------------------------------------------------
 // This following line parses the data in a POST request and makes it
 // available in request.body
 app.use( expressObj.json() );
+// . END middleware ----------------------------------------------------------
+
+
+// Begin routes --------------------------------------------------------------
+// I need a general route here that sets the Content-Type HTTP header in the
+// response to application/json for all responses
+//
+app.all( '/item/*?', function ( request, response, next ) {
+  response.set( 'Content-Type', 'application/json' );
+  next();
+});
 
 app.get( '/item/list', function ( request, response ) {
-  response.set( 'Content-Type', 'application/json' );
   response.send( itemList );
 });
 
@@ -30,6 +41,7 @@ app.post( '/item/create', function ( request, response ) {
   // Send the newly-created object in the response
   response.send( item_map );
 });
+// End routes ----------------------------------------------------------------
 
 const server = app.listen( 3000, '127.0.0.1', function () {
   console.log( 'HTTP server listening on 127.0.0.1:3000' );
