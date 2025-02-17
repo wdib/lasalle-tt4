@@ -36,6 +36,9 @@ app.use( morganObj( 'dev' ) );
 // response to application/json for all responses
 //
 app.all( '/item/*?', function ( request, response, next ) {
+  response.set( 'Access-Control-Allow-Origin',      'http://localhost:5173' );
+  response.set( 'Access-Control-Allow-Headers',     'content-type'          );
+  response.set( 'Access-Control-Allow-Credentials', true                    );
   response.set( 'Content-Type', 'application/json' );
   next();
 });
