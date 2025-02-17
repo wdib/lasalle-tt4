@@ -1,0 +1,33 @@
+ul {
+  list-style    : none;
+  padding       : 0;
+  margin        : 0;
+  border        : 1px solid #CCC;
+  border-radius : 16px;
+}
+
+li {
+  transition : background 0.2s;
+}
+  li:not( :last-of-type ) {
+    border-bottom : 1px solid #CCC;
+  }
+  li:hover {
+    background : #F1F1F1;
+  }
+
+label {
+  display     : block;
+  padding     : 16px 0 16px 16px;
+  line-height : 1.2;
+}
+
+li:first-of-type {
+  border-top-left-radius  : 16px;
+  border-top-right-radius : 16px;
+}
+
+li:last-of-type {
+  border-bottom-left-radius  : 16px;
+  border-bottom-right-radius : 16px;
+}
