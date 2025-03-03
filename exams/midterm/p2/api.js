@@ -10,7 +10,7 @@ const
     { id : 'c2', name : 'Smartphone', price : 800,  inventory: 5,   category : 'Electronics' },
     { id : 'c3', name : 'Desk',       price : 150,  inventory: 0,   category : 'Furniture'   },
     { id : 'c4', name : 'Chair',      price : 75,   inventory: 20,  category : 'Furniture'   },
-    { id : 'c5', name : 'Headphones', price : 200,  inventory: 0,   category : 'Accessories' },
+    { id : 'c5', name : 'Headphones', price : 200,  inventory: 100, category : 'Accessories' },
   ]
 ;
 
