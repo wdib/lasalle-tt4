@@ -19,8 +19,24 @@ function App () {
   }, [] );
 
   function handleAdd ( item_map ) {
-    // Update the itemList variable in the state to add the new item
     setItemList( [ ...itemList, item_map ] );
+  }
+
+  function handleUpdate ( update_item_map ) {
+    setItemList(
+      itemList.map( item_map => {
+        if ( item_map.id === update_item_map.id ) {
+          return update_item_map;
+        }
+        return item_map;
+      })
+    );
+  }
+
+  function handleRemove ( item_id ) {
+    setItemList(
+      itemList.filter( item_map => item_id !== item_map.id )
+    );
   }
 
   return (
@@ -32,7 +48,9 @@ function App () {
       {
         itemList.length > 0 &&
         <UserList
-          itemList = { itemList }
+          itemList = { itemList     }
+          onUpdate = { handleUpdate }
+          onRemove = { handleRemove }
         />
       }
     </>

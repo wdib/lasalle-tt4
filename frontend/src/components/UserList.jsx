@@ -1,7 +1,7 @@
 import UserItem from "./UserItem";
 import '../css/UserList.css';
 
-function UserList ( { itemList } ) {
+function UserList ( { itemList, onUpdate, onRemove } ) {
   return (
     <ul>
       {
@@ -9,7 +9,9 @@ function UserList ( { itemList } ) {
           return (
             <UserItem
               key      = { item_map.id }
-              item_map = { item_map }
+              item_map = { item_map    }
+              onUpdate = { onUpdate    }
+              onRemove = { onRemove    }
             />
           );
         })
