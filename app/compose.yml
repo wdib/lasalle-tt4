@@ -5,5 +5,9 @@ services:
       context: ./
       target: final
     container_name: web
+    develop:
+      watch:
+        - path: ./backend/package.json
+          action: rebuild
     ports:
       - '3000:3000'
