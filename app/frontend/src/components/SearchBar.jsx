@@ -1,7 +1,7 @@
 import httpReq from '../utils/httpReq';
 import '../css/SearchBar.css';
 
-function SearchBar ( { onSubmit } ) {
+function SearchBar ( { dispatch } ) {
 
   function handleKeyDown ( event ) {
     if ( event.key === 'Enter' ) {
@@ -11,7 +11,10 @@ function SearchBar ( { onSubmit } ) {
       httpReq( 'post', '/item/create', body_map )
         .then( item_map => {
           // Update the state of the React app with the newly-created item
-          onSubmit( item_map );
+          dispatch({
+            type : 'add',
+            body : item_map
+          });
         })
         .catch( error => {
           console.error( error );

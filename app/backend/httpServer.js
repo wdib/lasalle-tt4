@@ -1,5 +1,9 @@
-import expressObj from 'express';
-import morganObj  from 'morgan';
+import expressObj        from 'express';
+import morganObj         from 'morgan';
+import path              from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath( import.meta.url );
+const __dirname  = path.dirname( __filename );
 
 const app = expressObj();
 
@@ -28,6 +32,7 @@ function getIdx ( item_id ) {
 // available in request.body
 app.use( expressObj.json() );
 app.use( morganObj( 'dev' ) );
+app.use( expressObj.static( __dirname + '/static' ) );
 // . END middleware ----------------------------------------------------------
 
 
@@ -36,7 +41,7 @@ app.use( morganObj( 'dev' ) );
 // response to application/json for all responses
 //
 app.all( '/item/*?', function ( request, response, next ) {
-  response.set( 'Access-Control-Allow-Origin',      'http://localhost:5173' );
+  response.set( 'Access-Control-Allow-Origin',      'http://localhost:3000' );
   response.set( 'Access-Control-Allow-Headers',     'content-type'          );
   response.set( 'Access-Control-Allow-Credentials', true                    );
   response.set( 'Access-Control-Allow-Methods',     '*' );
@@ -106,6 +111,6 @@ app.delete( '/item/delete/:id', function ( request, response ) {
 });
 // End routes ----------------------------------------------------------------
 
-const server = app.listen( 3000, '127.0.0.1', function () {
+const server = app.listen( 3000, function () {
   console.log( 'HTTP server listening on 127.0.0.1:3000' );
 });

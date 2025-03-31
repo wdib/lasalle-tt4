@@ -1,7 +1,7 @@
 import { useState } from "react";
 import httpReq      from "../utils/httpReq";
 
-function UserItem ( { item_map, onUpdate, onRemove } ) {
+function UserItem ( { item_map, dispatch } ) {
   const [ isUpdateMode, setIsUpdateMode ] = useState( false );
 
   function handleDoubleClick () {
@@ -18,7 +18,10 @@ function UserItem ( { item_map, onUpdate, onRemove } ) {
       let body_map    = { name : input_value };
       httpReq( 'post', '/item/update/' + item_map.id, body_map )
         .then( item_map => {
-          onUpdate( item_map );
+          dispatch({
+            type : 'update',
+            body : item_map
+          });
         })
         .catch( error => {
           console.error( error );
@@ -31,7 +34,10 @@ function UserItem ( { item_map, onUpdate, onRemove } ) {
   function handleClickRemove () {
     httpReq( 'delete', '/item/delete/' + item_map.id )
       .then( () => {
-        onRemove( item_map.id );
+        dispatch({
+          type : 'remove',
+          body : { id : item_map.id },
+        });
       })
       .catch( error => {
         console.error( error );
