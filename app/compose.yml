@@ -1,0 +1,9 @@
+name: user-admin-dashboard
+services:
+  web:
+    build:
+      context: ./
+      target: final
+    container_name: web
+    ports:
+      - '3000:3000'
