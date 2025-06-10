@@ -1,44 +1,87 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useReducer } from 'react';
+import { fetchCourses, registerCourse, deregisterCourse } from './httpReq';
+import CourseRow from './CourseRow';
+import reducer   from './reducer';
 
-function CourseTable({ studentId }) {
-    const [courses, setCourses] = useState([]);
-    const [registeredCourses, setRegisteredCourses] = useState([]);
+const initialState = {
+  loading           : true,
+  error             : null,
+  courses           : [],
+  registeredCourses : [],
+};
 
-    useEffect(() => {
-        axios.get('/api/courses').then(res => setCourses(res.data));
-        axios.get(`/api/students/${studentId}/courses`).then(res => setRegisteredCourses(res.data));
-    }, [studentId]);
+function CourseTable () {
+  const [ state, dispatch ] = useReducer( reducer, initialState );
 
-    const handleClick = (courseId, isRegistered) => {
-        const url = isRegistered ? '/api/courses/deregister' : '/api/courses/register';
-        axios.post(url, { studentId, courseId }).then(() => {
-            axios.get(`/api/students/${studentId}/courses`).then(res => setRegisteredCourses(res.data));
+  useEffect( function () {
+    dispatch( { type : 'load_start' } );
+    fetchCourses()
+      .then( data => {
+        dispatch({
+          type    : 'load_success',
+          payload : data
         });
-    };
+      })
+      .catch( error => {
+        dispatch({
+          type  : 'load_error',
+          error : error.message
+        })
+      })
+    ;
+  }, [] );
 
-    return (
-        <table>
-            <thead>
-                <tr><th>Course</th><th>Action</th></tr>
-            </thead>
-            <tbody>
-                {courses.map(course => {
-                    const isRegistered = registeredCourses.includes(course.id);
-                    return (
-                        <tr key={course.id}>
-                            <td>{course.name}</td>
-                            <td>
-                                <button onClick={() => handleClick(course.id, isRegistered)}>
-                                    {isRegistered ? 'Deregister' : 'Register'}
-                                </button>
-                            </td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
-    );
+  const handleToggle = async ( courseId, isRegistered ) => {
+    try {
+      if ( isRegistered ) {
+        await deregisterCourse( courseId );
+        dispatch( { type : 'deregister', courseId : courseId } );
+      }
+      else {
+        await registerCourse( courseId );
+        dispatch( { type : 'register', courseId : courseId } );
+      }
+    }
+    catch ( error ) {
+      alert( 'Action failed: ' + error.message );
+    }
+  };
+
+  const { loading, error, courses, registeredCourses } = state;
+
+  if ( loading ) {
+    return <div>Loading courses...</div>;
+  }
+    
+  if ( error ) {
+    return <div>Error: { error }</div>;
+  }
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          courses.map( course => {
+            const isRegistered = registeredCourses.includes( course.id );
+            return (
+              <CourseRow
+                key          = { course.id    }
+                course       = { course       }
+                isRegistered = { isRegistered }
+                onToggle     = { handleToggle }
+              />
+            );
+          })
+        }
+      </tbody>
+    </table>
+  );
 }
 
 export default CourseTable;

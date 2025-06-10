@@ -1,0 +1,23 @@
+name: college-app
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - '3001:5173'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
